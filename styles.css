@@ -1,9 +1,9 @@
-
 body {
-    background-color: #e2e2e2;
+    background-color: #ffffff;
+    background: repeating-linear-gradient( 45deg, #f7f7f78a, #f8f8f879 10px, #f1f1f149 10px, #eff0f1 20px);
     min-height: 100vh;
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,230,230,1) 100%);
+    /* background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,230,230,1) 100%); */
     overflow: hidden;
 }
 
@@ -23,8 +23,7 @@ body {
 .table ion-icon {
     font-size: 440px;
     opacity: 0.4;
-
-    filter: drop-shadow( 3px 3px 3px rgba(0,0,0,0.8));
+    filter: drop-shadow( 6px 6px 15px rgb(0, 0, 0));
     -webkit-filter: drop-shadow( 3px 3px 3px rgba(0,0,0,0.8));
 
     animation: mymove 10s linear infinite;
@@ -85,8 +84,8 @@ body {
 
 .card {
     min-width: 110px;
-    width: 110px;
-    height: 146px;
+    width: 140px;
+    height: 176px;
 
     display: flex;
     justify-content: center;
@@ -94,7 +93,7 @@ body {
 
     border: 1px solid black;
     border-radius: 7px;
-    box-shadow: -1px 2px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.884);
 
     transition: all 0.5s;
 
@@ -115,12 +114,12 @@ body {
 
 .my-turn.card {
     box-shadow: -1px 11px 12px rgba(0,0,0,0.85);
-    transform: translateY(-7px);
+    transform: translateY(-10px);
     cursor: pointer;
 }
 
 .my-turn.card:hover ~ .card {
-    transform: translateX(7px);
+    transform: translateX(14px);
 }
 
 .my-turn.card:hover ~ .my-turn.card {
@@ -202,23 +201,40 @@ body {
     background-color: rgb(18, 199, 18);
 }
 
-.blocked.player-2 .light,
+/* .blocked.player-2 .light,
 .blocked.player-3 .light,
 .blocked.player-4 .light {
     border: 1px solid orangered;
     background-color: rgb(252, 135, 40);
+} */
+
+
+.player-2 .skipped-indicator,
+.player-3 .skipped-indicator,
+.player-4 .skipped-indicator {
+    position: absolute;
+    top: calc(50% - 50px); 
+    left: calc(50% - 25px); 
+    background-color: rgba(255, 0, 0, 0.8); 
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none; 
+    z-index: 999; 
 }
+
 
 .player-2 .light,
 .player-3 .light,
 .player-4 .light {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: lightgrey;
     border: 1px solid gray;
     margin: 10px 10px;
-    border-radius: 10px;
+    border-radius: 50%;
     box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 0px 20px black;
     transition: all 0.4s;
 }
 
@@ -418,3 +434,18 @@ body {
     background-color: rgb(145, 107, 107); 
     transform: scale(0.9);
 }
+
+.game-announcement {
+  position: fixed;
+  bottom: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  display: none; /* Initially hidden */
+  z-index: 9999; /* Ensures it appears on top */
+}
+
+
