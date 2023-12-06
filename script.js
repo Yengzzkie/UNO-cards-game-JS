@@ -1,10 +1,23 @@
-
 const deck = [];
 const table = [];
 // const colors = ["darkred", "darkyellow", "darkgreen", "darkblue"];
-const symbols = ["0","1","2","3","4","5","6","7","8","9","reverse","block","p2"];
-const jokers = ["changeColor","p4"];
-const colors = ["#df3838","#ffeb3b","#5fcb5f","#2669e3"];
+const symbols = [
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "reverse",
+  "block",
+  "p2",
+];
+const jokers = ["changeColor", "p4"];
+const colors = ["#df3838", "#ffeb3b", "#5fcb5f", "#2669e3"];
 
 let turn = 7000;
 let direction = 1;
@@ -12,99 +25,94 @@ let direction = 1;
 const players = [];
 
 function createCards() {
+  for (let color of colors) {
+    for (let i = 0; i < symbols.length; i++) {
+      let card = {
+        color: color,
+        symbol: symbols[i],
+      };
 
-    for (let color of colors){
-
-        for (let i = 0 ; i < symbols.length ; i ++) {
-    
-            let card = {
-                color: color,
-                symbol: symbols[i]
-            }
-            
-            if (i==0) {
-                deck.push(card);
-            } else {
-                deck.push(card);
-                deck.push(card);
-            }
-        }
+      if (i == 0) {
+        deck.push(card);
+      } else {
+        deck.push(card);
+        deck.push(card);
+      }
     }
-    
-    for (let joker of jokers){
-        let card = {
-            color: "black",
-            symbol: joker
-        }
-        deck.push(card);
-        deck.push(card);
-        deck.push(card);
-        deck.push(card);
-    }
+  }
 
+  for (let joker of jokers) {
+    let card = {
+      color: "black",
+      symbol: joker,
+    };
+    deck.push(card);
+    deck.push(card);
+    deck.push(card);
+    deck.push(card);
+  }
 }
 
 function shuffleCards() {
-    deck.sort( () => Math.random() - 0.5 );
+  deck.sort(() => Math.random() - 0.5);
 }
 
 function giveCardsToPlayers() {
-
-    for (let j = 0 ; j < 4 ; j ++) {
-
-        let playerCards = [];
-        for (let i = 0 ; i < 7 ; i++) {
-            playerCards.push(deck[0]);
-            deck.shift();
-        }
-        playerCards = organizeCards(playerCards);
-        players.push(playerCards);
+  for (let j = 0; j < 4; j++) {
+    let playerCards = [];
+    for (let i = 0; i < 7; i++) {
+      playerCards.push(deck[0]);
+      deck.shift();
     }
+    playerCards = organizeCards(playerCards);
+    players.push(playerCards);
+  }
 }
 
 function organizeCards(playerCards) {
+  let organizedCards = [];
 
-    let organizedCards = [];
-
-    for( let color of ['black'].concat(colors) ) {
-        let filteredCards = playerCards.filter( e => e.color == color );
-        organizedCards = organizedCards.concat(filteredCards.sort((a,b) => {
-            if (a.symbol > b.symbol) return 1;
-            if (a.symbol < b.symbol) return -1;
-            return 0;
-        }));
-    }
-    return organizedCards;
+  for (let color of ["black"].concat(colors)) {
+    let filteredCards = playerCards.filter((e) => e.color == color);
+    organizedCards = organizedCards.concat(
+      filteredCards.sort((a, b) => {
+        if (a.symbol > b.symbol) return 1;
+        if (a.symbol < b.symbol) return -1;
+        return 0;
+      })
+    );
+  }
+  return organizedCards;
 }
 
 function startTable() {
-    
-    for(let i = 0; i < deck.length ; i ++) {
-
-        if ( !isNaN(parseInt( deck[i].symbol )) ) {
-            table.push( deck[i] );
-            deck.splice(i,1);
-            return;
-        }
+  for (let i = 0; i < deck.length; i++) {
+    if (!isNaN(parseInt(deck[i].symbol))) {
+      table.push(deck[i]);
+      deck.splice(i, 1);
+      return;
     }
+  }
 }
 
 function renderDeck() {
+  let deckObject = document.getElementById("deck");
 
-    let deckObject = document.getElementById("deck");
+  let symbolHTML;
 
-    let symbolHTML;
-    
-    let carta = deck[0];
+  let carta = deck[0];
 
-    if ( carta.symbol == "reverse" ) symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
-    else if ( carta.symbol == "block" ) symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
-    else if ( carta.symbol == "changeColor" ) symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
-    else if ( carta.symbol == "p2" ) symbolHTML = `<p>+2</p>`;
-    else if ( carta.symbol == "p4" ) symbolHTML = `<p>+4</p>`;
-    else symbolHTML = `<p>${carta.symbol}</p>`;
+  if (carta.symbol == "reverse")
+    symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
+  else if (carta.symbol == "block")
+    symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
+  else if (carta.symbol == "changeColor")
+    symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
+  else if (carta.symbol == "p2") symbolHTML = `<p>+2</p>`;
+  else if (carta.symbol == "p4") symbolHTML = `<p>+4</p>`;
+  else symbolHTML = `<p>${carta.symbol}</p>`;
 
-    deckObject.innerHTML = `
+  deckObject.innerHTML = `
 
     <div class="card verso">
         <div class="logo">
@@ -120,36 +128,36 @@ function renderDeck() {
 }
 
 function renderTable() {
-    let currentPlayer = turn%4;
-    let tableCardObject = document.getElementById("tableCard");
-    let body = document.querySelector('body');
-    let numCards = tableCardObject.children.length;
+  let currentPlayer = turn % 4;
+  let tableCardObject = document.getElementById("tableCard");
+  let body = document.querySelector("body");
+  let numCards = tableCardObject.children.length;
 
-    let carta = table[table.length-1];
+  let carta = table[table.length - 1];
 
-    let angle;
-    if (numCards == 0 || carta.symbol == "p4" || carta.symbol == "changeColor") angle = 0;
-    else angle = ( Math.random() - 0.5 ) * 2 * 15;
-    
-    let symbolHTML;
+  let angle;
+  if (numCards == 0 || carta.symbol == "p4" || carta.symbol == "changeColor")
+    angle = 0;
+  else angle = (Math.random() - 0.5) * 2 * 15;
 
-    if ( carta.symbol == "reverse" ) {
-        showGameAnnouncement("Reverse!");
-        symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
-    } else if ( carta.symbol == "block" ) {
-        console.log(`Player ${currentPlayer + 1} skipped`);
-        symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
-    } else if ( carta.symbol == "changeColor" ) {
-        showGameAnnouncement(`Color changed to ${carta.color}`);
-        symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
-    }
-    else if ( carta.symbol == "p2" ) symbolHTML = `<p>+2</p>`;
-    else if ( carta.symbol == "p4" ) symbolHTML = `<p>+4</p>`;
-    else symbolHTML = `<p>${carta.symbol}</p>`;
+  let symbolHTML;
 
-    body.style.backgroundColor = `${carta.color}`;
+  if (carta.symbol == "reverse") {
+    showGameAnnouncement("Reverse!");
+    symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
+  } else if (carta.symbol == "block") {
+    console.log(`Player ${currentPlayer + 1} skipped`);
+    symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
+  } else if (carta.symbol == "changeColor") {
+    showGameAnnouncement(`Color changed to ${carta.color}`);
+    symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
+  } else if (carta.symbol == "p2") symbolHTML = `<p>+2</p>`;
+  else if (carta.symbol == "p4") symbolHTML = `<p>+4</p>`;
+  else symbolHTML = `<p>${carta.symbol}</p>`;
 
-    tableCardObject.innerHTML += `
+  body.style.backgroundColor = `${carta.color}`;
+
+  tableCardObject.innerHTML += `
     <div style="background-color: ${carta.color}; transform: rotateZ(${angle}deg);" class="card">
         <div class="logo">
             ${symbolHTML}
@@ -157,496 +165,497 @@ function renderTable() {
     </div>
     `;
 
-    numCards = tableCardObject.children.length;
-    if (numCards == 6) tableCardObject.children[0].remove();
+  numCards = tableCardObject.children.length;
+  if (numCards == 6) tableCardObject.children[0].remove();
 
-    let turnLogo = document.querySelector(".table ion-icon");
-    // turnLogo.style.color = carta.color;
+  let turnLogo = document.querySelector(".table ion-icon");
+  // turnLogo.style.color = carta.color;
 }
 
-function sortCardsOnContainer(){
+function sortCardsOnContainer() {
+  let container = document.querySelector(".cards-container");
+  let cards = [...container.children];
 
-    let container = document.querySelector(".cards-container");
-    let cards = [...container.children];
+  if (players[0].length == 0) return;
 
-    if (players[0].length == 0) return;
+  let numCards = cards.length;
+  let cardWidth = 110;
 
-    let numCards = cards.length;
-    let cardWidth = 110;
+  let containerWidth = container.clientWidth;
+  let windowWidth = window.innerWidth;
 
-    let containerWidth = container.clientWidth;
-    let windowWidth = window.innerWidth;
+  let desiredWidth = numCards * cardWidth - 8 * (numCards - 3);
 
-    let desiredWidth = numCards*cardWidth - 8 * (numCards-3);
+  if (desiredWidth <= windowWidth && desiredWidth <= containerWidth) return;
 
-    if ( desiredWidth <= windowWidth && desiredWidth <= containerWidth ) return;
+  let offset;
 
-    let offset;
-
-    if ( desiredWidth >  windowWidth) {
-        offset = ( cards.length * cardWidth - windowWidth ) / ( cards.length - 3 );
-    } else {
-        offset = 8;
-    }
-    cards[0].style.marginLeft = `0px`;
-    for (let i = 1; i < cards.length; i++) {
-        cards[i].style.marginLeft = `-${offset}px`;
-    }
+  if (desiredWidth > windowWidth) {
+    offset = (cards.length * cardWidth - windowWidth) / (cards.length - 3);
+  } else {
+    offset = 8;
+  }
+  cards[0].style.marginLeft = `0px`;
+  for (let i = 1; i < cards.length; i++) {
+    cards[i].style.marginLeft = `-${offset}px`;
+  }
 }
 
 function renderUserCards() {
-    let cardsContainer = document.getElementById("cardsContainer");
-    cardsContainer.innerHTML = "";
+  let cardsContainer = document.getElementById("cardsContainer");
+  cardsContainer.innerHTML = "";
 
-    let cont = 0;
-    for (let carta of players[0]) {
+  let cont = 0;
+  for (let carta of players[0]) {
+    let symbolHTML;
 
-        let symbolHTML;
+    if (carta.symbol == "reverse")
+      symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
+    else if (carta.symbol == "block")
+      symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
+    else if (carta.symbol == "changeColor")
+      symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
+    else if (carta.symbol == "p2") symbolHTML = "+2";
+    else if (carta.symbol == "p4") symbolHTML = "+4";
+    else symbolHTML = `${carta.symbol}`;
 
-        if ( carta.symbol == "reverse" ) symbolHTML = '<ion-icon name="refresh-outline"></ion-icon>';
-        else if ( carta.symbol == "block" ) symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
-        else if ( carta.symbol == "changeColor" ) symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
-        else if ( carta.symbol == "p2" ) symbolHTML = '+2';
-        else if ( carta.symbol == "p4" ) symbolHTML = '+4';
-        else symbolHTML = `${carta.symbol}`;
-
-        cardsContainer.innerHTML += `
+    cardsContainer.innerHTML += `
         <div style="background-color: ${carta.color};" class="card" onclick="handleClick(this)">
             <div class="logo">
                 ${symbolHTML}
             </div>
         </div>
         `;
-        
-        cont++;
-    }
-    sortCardsOnContainer();
+
+    cont++;
+  }
+  sortCardsOnContainer();
 }
 
 function renderOtherPlayers() {
-    for(let numPlayer = 1; numPlayer < 4; numPlayer++){
+  for (let numPlayer = 1; numPlayer < 4; numPlayer++) {
+    let element = document.querySelector(".player-" + (numPlayer + 1));
+    let logo = element.querySelector(".logo");
 
-        let element = document.querySelector(".player-"+(numPlayer+1));
-        let logo = element.querySelector(".logo");
-        
-        if (players[numPlayer].length > 0) logo.innerHTML = players[numPlayer].length + "";
-        else logo.innerHTML = "WINS"; 
-    }
+    if (players[numPlayer].length > 0)
+      logo.innerHTML = players[numPlayer].length + "";
+    else logo.innerHTML = "WINS";
+  }
 }
 
 function takeCard() {
+  let currentPlayer = turn % 4;
+  let takenCard = [];
 
-    let currentPlayer = turn%4;
-    let takenCard = [];
+  takenCard.push(deck[0]);
+  players[currentPlayer].push(deck[0]);
+  deck.shift();
 
-    takenCard.push(deck[0]);
-    players[currentPlayer].push(deck[0]);
-    deck.shift();
+  players[currentPlayer] = organizeCards(players[currentPlayer]);
 
-    players[currentPlayer] = organizeCards(players[currentPlayer]);
-
-    return takenCard[0];
+  return takenCard[0];
 }
 
 function handleClick(cardObject) {
+  if (turn % 4 != 0) return;
 
-    if (turn%4 != 0) return;
+  const cardsContainer = document.getElementById("cardsContainer");
+  const myCards = [...cardsContainer.querySelectorAll(".card")];
+  const indexCard = myCards.findIndex((card) => card == cardObject);
 
-    const cardsContainer = document.getElementById("cardsContainer");
-    const myCards = [...cardsContainer.querySelectorAll(".card")];
-    const indexCard = myCards.findIndex(card => card == cardObject)
+  let selectedCard = players[0][indexCard];
 
-    let selectedCard = players[0][indexCard];
+  if (!isValidCard(selectedCard)) return;
 
-    if ( !isValidCard(selectedCard) ) return;
+  // valid selection
 
-    // valid selection
+  table.push(selectedCard);
+  players[0].splice(indexCard, 1);
+  myCards[indexCard].remove();
+  sortCardsOnContainer();
+  renderTable();
 
-    table.push( selectedCard );
-    players[0].splice(indexCard,1);
-    myCards[indexCard].remove();
-    sortCardsOnContainer();
-    renderTable();
+  // table array updated
+  // cards array updated
+  // screen updated: table and cards container
 
-    // table array updated
-    // cards array updated
-    // screen updated: table and cards container
+  myCards.forEach((card) => card.classList.remove("my-turn"));
 
-    myCards.forEach( card => card.classList.remove("my-turn") );
+  // efect of my turn removed
 
-    // efect of my turn removed
-
-    handlePowerUps(selectedCard);
+  handlePowerUps(selectedCard);
 }
 
 function isValidCard(card) {
+  let tableCard = table[table.length - 1];
 
-    let tableCard = table[table.length-1];
+  if (
+    card.symbol == tableCard.symbol ||
+    card.color == tableCard.color ||
+    card.color == "black"
+  )
+    return true;
 
-    if (card.symbol == tableCard.symbol || 
-        card.color == tableCard.color || 
-        card.color == "black") return true;
-
-        return false;
+  return false;
 }
 
 function handleTurn() {
+  console.log(deck.length);
 
-    console.log(deck.length);
-
-    for (let i = 0; i < players.length ; i++ ){
-        let player = players[i];
-        if (player.length == 0) {
-            console.log(`PLAYER ${i+1} WINS!!`);
-            if (i!=0) document.querySelector(".player-"+(i+1)).classList.add("winner");
-            else window.open("https://editor.p5js.org/metilbenceno/full/HLjn5u_O4");
-            return;
-        }
+  for (let i = 0; i < players.length; i++) {
+    let player = players[i];
+    if (player.length == 0) {
+      console.log(`PLAYER ${i + 1} WINS!!`);
+      if (i != 0)
+        document.querySelector(".player-" + (i + 1)).classList.add("winner");
+      else window.open("https://editor.p5js.org/metilbenceno/full/HLjn5u_O4");
+      return;
     }
+  }
 
-    for (let i = 1 ; i < 4 ; i++){
-        let turnOfObj = document.querySelector(".player-"+(i+1));
-        if (i == turn%4){
-            turnOfObj.classList.add("turnOf");
-        } else {
-            turnOfObj.classList.remove("turnOf");
-        }
+  for (let i = 1; i < 4; i++) {
+    let turnOfObj = document.querySelector(".player-" + (i + 1));
+    if (i == turn % 4) {
+      turnOfObj.classList.add("turnOf");
+    } else {
+      turnOfObj.classList.remove("turnOf");
     }
-    
-    let validCards = 0;
+  }
 
-    players[turn%4].forEach( card => {
-        if (isValidCard(card)) validCards++;
-    });
+  let validCards = 0;
 
-    // if there are NOT valid cards to play 
+  players[turn % 4].forEach((card) => {
+    if (isValidCard(card)) validCards++;
+  });
 
-    if (validCards == 0) {
-        takeCardActions();
-        return;
-    }
+  // if there are NOT valid cards to play
 
-    // if there are valid cards to play 
+  if (validCards == 0) {
+    takeCardActions();
+    return;
+  }
 
-    placeCardActions();
+  // if there are valid cards to play
+
+  placeCardActions();
 }
 
 function takeCardActions() {
+  currentPlayer = turn % 4;
 
-    currentPlayer = turn%4;
-
-    if (currentPlayer == 0) {
-        showGameAnnouncement("You have no cards to placem please draw card from the deck");
-        let deckObject = document.getElementById("deck");
-        deckObject.classList.add("my-time");
-        renderDeck();
-    } else {
+  if (currentPlayer == 0) {
+    showGameAnnouncement(
+      "You have no cards to placem please draw card from the deck"
+    );
+    let deckObject = document.getElementById("deck");
+    deckObject.classList.add("my-time");
+    renderDeck();
+  } else {
+    setTimeout(() => {
+      showGameAnnouncement(`Player ${currentPlayer + 1} is taking a card`);
+      let takenCard = takeCard();
+      if (!isValidCard(takenCard)) {
         setTimeout(() => {
-            showGameAnnouncement(`Player ${currentPlayer+1} is taking a card`);
-            let takenCard = takeCard();
-            if ( !isValidCard(takenCard) ){
-                setTimeout(() => {
-                    renderOtherPlayers();
-                    showGameAnnouncement(`Player ${currentPlayer+1} has no card to place`);
-                    turn += direction;
-                    handleTurn();
-                    return;
-                },1500)
-            } else {
-                setTimeout(() => {
-                    renderOtherPlayers();
-                    placeCardActions();
-                },1200);
-            }
-        },1000);
-    }
+          renderOtherPlayers();
+          showGameAnnouncement(
+            `Player ${currentPlayer + 1} has no card to place`
+          );
+          turn += direction;
+          handleTurn();
+          return;
+        }, 1500);
+      } else {
+        setTimeout(() => {
+          renderOtherPlayers();
+          placeCardActions();
+        }, 1200);
+      }
+    }, 1000);
+  }
 }
 
 function turnDeckCard(deckObject) {
+  if (!deckObject.classList.contains("my-time")) return;
 
-    if ( !deckObject.classList.contains("my-time") ) return;
+  deckObject.classList.toggle("turned");
 
-    deckObject.classList.toggle("turned");
+  let takenCard = takeCard();
 
-    let takenCard = takeCard();
-
-    if ( !isValidCard(takenCard) ){
-        console.log("Can not place this card");
-        setTimeout(() => {
-            deckObject.classList.toggle("turned");
-            renderUserCards();
-            turn += direction;
-            handleTurn();
-        },1200);
-    } else {
-        console.log("Placing card");
-        setTimeout(() => {
-            deckObject.classList.toggle("turned");
-            let indexCard = players[0].findIndex(card => card == takenCard);
-            table.push( takenCard );
-            players[0].splice(indexCard,1);
-            renderTable();
-            handlePowerUps(takenCard);
-        },1200)
-    }
-    deckObject.classList.remove("my-time");
+  if (!isValidCard(takenCard)) {
+    console.log("Can not place this card");
+    setTimeout(() => {
+      deckObject.classList.toggle("turned");
+      renderUserCards();
+      turn += direction;
+      handleTurn();
+    }, 1200);
+  } else {
+    console.log("Placing card");
+    setTimeout(() => {
+      deckObject.classList.toggle("turned");
+      let indexCard = players[0].findIndex((card) => card == takenCard);
+      table.push(takenCard);
+      players[0].splice(indexCard, 1);
+      renderTable();
+      handlePowerUps(takenCard);
+    }, 1200);
+  }
+  deckObject.classList.remove("my-time");
 }
 
-function placeCardActions(){
+function placeCardActions() {
+  let currentPlayer = turn % 4;
 
-    let currentPlayer = turn%4;
-    
-    if (currentPlayer==0) {
+  if (currentPlayer == 0) {
 
-        console.log("It's your time!");
-        showGameAnnouncement(`Your turn!`);
-        let cardsObject = [...document.querySelector(".cards-container").children];
-        let cardsInfo = players[0];
+    showGameAnnouncement(`Your turn!`);
+    let cardsObject = [...document.querySelector(".cards-container").children];
+    let cardsInfo = players[0];
 
-        if (cardsObject.length != cardsInfo.length) console.log("SOMETHING WENT WRONG!");
+    if (cardsObject.length != cardsInfo.length)
+      console.log("SOMETHING WENT WRONG!");
 
-        for(let i = 0; i < cardsInfo.length ; i++) {
-            if(isValidCard(cardsInfo[i])) cardsObject[i].classList.add("my-turn");
-        }
-
-    } else {
-        //logic for the other players...
-
-        showGameAnnouncement(`Player ${currentPlayer + 1} is thinking`);
-
-        let validCards = players[currentPlayer].filter(card => isValidCard(card));
-
-        let jokers = validCards.filter(validCard => validCard.color == "black");
-        let noJokers = validCards.filter(validCard => validCard.color != "black");
-
-        let selectedCard;
-        if ( noJokers.length > 0 ) {
-            noJokers = noJokers.sort((a,b) => {
-                if (a.symbol > b.symbol) return 1;
-                if (a.symbol < b.symbol) return -1;
-                return 0;
-            });
-            selectedCard = noJokers[noJokers.length-1];
-        } else if (jokers.length > 0) {
-            selectedCard = jokers[0];
-        } else {
-            console.log("SOMETHING WENT WRONG!!")
-        }
-
-        let index = players[currentPlayer].findIndex(card => card == selectedCard);
-
-        table.push(selectedCard);
-        players[currentPlayer].splice(index,1);
-
-        setTimeout(() => {
-            renderTable();
-            renderOtherPlayers();
-            handlePowerUps(selectedCard);
-        },3000);
+    for (let i = 0; i < cardsInfo.length; i++) {
+      if (isValidCard(cardsInfo[i])) cardsObject[i].classList.add("my-turn");
     }
+  } else {
+    //logic for the other players...
+
+    showGameAnnouncement(`Player ${currentPlayer + 1} is thinking`);
+
+    let validCards = players[currentPlayer].filter((card) => isValidCard(card));
+
+    let jokers = validCards.filter((validCard) => validCard.color == "black");
+    let noJokers = validCards.filter((validCard) => validCard.color != "black");
+
+    let selectedCard;
+    if (noJokers.length > 0) {
+      noJokers = noJokers.sort((a, b) => {
+        if (a.symbol > b.symbol) return 1;
+        if (a.symbol < b.symbol) return -1;
+        return 0;
+      });
+      selectedCard = noJokers[noJokers.length - 1];
+    } else if (jokers.length > 0) {
+      selectedCard = jokers[0];
+    } else {
+      console.log("SOMETHING WENT WRONG!!");
+    }
+
+    let index = players[currentPlayer].findIndex(
+      (card) => card == selectedCard
+    );
+
+    table.push(selectedCard);
+    players[currentPlayer].splice(index, 1);
+
+    setTimeout(() => {
+      renderTable();
+      renderOtherPlayers();
+      handlePowerUps(selectedCard);
+    }, 3000);
+  }
 }
 
 function handlePowerUps(selectedCard) {
+  // it's a number
 
-    // it's a number
+  if (!isNaN(parseInt(selectedCard.symbol))) {
+    turn += direction;
+    handleTurn();
+    return;
+  }
 
-    if ( !isNaN(parseInt( selectedCard.symbol )) ) {
+  // it's NOT a number:
+
+  if (selectedCard.symbol == "reverse") {
+    const reverseIcon = document.getElementById("table");
+    reverseIcon.classList.toggle("inverse");
+
+    direction *= -1;
+    turn += direction;
+    handleTurn();
+    return;
+  }
+
+  if (selectedCard.symbol == "block") {
+    turn += direction;
+    if (turn % 4 != 0) {
+      let player = document.querySelector(".player" + ((turn % 4) + 1));
+      player.classList.add("skipped-indicator");
+
+      const skippedIndicator = document.querySelector(".skipped-indicator");
+      skippedIndicator.style.display = "block";
+      setTimeout(() => {
+        if (turn % 4 != 0) {
+          let player = document.querySelector(".player" + ((turn % 4) + 1));
+          player.classList.add("skipped-indicator");
+
+          const skippedIndicator = document.querySelector(".skipped-indicator");
+          skippedIndicator.style.display = "none";
+
+          turn += direction;
+          handleTurn();
+          return;
+        }
+      }, 3000);
+    }
+  }
+
+  if (selectedCard.symbol == "p2") {
+    turn += direction;
+    if (turn % 4 != 0) {
+      let player = document.querySelector(".player" + ((turn % 4) + 1));
+    player.classList.add("skipped-indicator");
+    takeCard();
+    takeCard();
+    setTimeout(() => {
+      if (turn % 4 != 0) {
+        const skippedIndicator = document.querySelector(".skipped-indicator");
+        skippedIndicator.style.display = "none";
+
         turn += direction;
+        renderOtherPlayers();
+        renderUserCards();
         handleTurn();
         return;
-    }
+      }
+       
+  
+    }, 1000);
+  }}
 
-    // it's NOT a number:
-
-    if (selectedCard.symbol == "reverse") {
-
-        const reverseIcon = document.getElementById("table");
-        reverseIcon.classList.toggle("inverse");
-
-        direction *= -1;
-        turn += direction;
-        handleTurn();
+  if (selectedCard.symbol == "changeColor" || selectedCard.symbol == "p4") {
+    if (turn % 4 == 0) {
+      chooseColor(selectedCard);
+      return;
+    } else {
+      console.log(`Player ${(turn % 4) + 1} is choosing a color`);
+      setTimeout(() => {
+        chooseColor(selectedCard);
         return;
+      }, 3000);
     }
-
-    if (selectedCard.symbol == "block") {
-        turn += direction;
-        if(turn%4 != 0) {
-            let player = document.querySelector(".player"+(turn%4+1));
-            player.classList.add("skipped-indicator");
-
-            const skippedIndicator = document.querySelector('.skipped-indicator');
-            skippedIndicator.style.display = 'block';
-        setTimeout(() => {
-            if(turn%4 != 0) {
-            
-                let player = document.querySelector(
-                  ".player" + ((turn % 4) + 1)
-                );
-                player.classList.add("skipped-indicator");
-
-                const skippedIndicator =
-                  document.querySelector(".skipped-indicator");
-                skippedIndicator.style.display = "none";
-
-            
-            turn += direction;
-            handleTurn();
-            return;
-        }
-        },5000);
-        }}
-
-    if (selectedCard.symbol == "p2") {
-        turn += direction;
-        if(turn%4 != 0) document.querySelector(".player"+(turn%4+1)).classList.add("skipped-indicator");
-        takeCard();
-        takeCard();
-        setTimeout(() => {
-            if(turn%4 != 0) document.querySelector(".player"+(turn%4+1)).classList.remove("skipped-indicator");
-            turn += direction;
-            renderOtherPlayers();
-            renderUserCards();
-            handleTurn();
-            return;
-        },1000);
-    }
-
-    if (selectedCard.symbol == "changeColor" || selectedCard.symbol == "p4") {
-        if(turn%4==0) {
-            chooseColor(selectedCard);
-            return;
-        } else {
-            console.log(`Player ${turn%4+1} is choosing a color`);
-            setTimeout(() => {
-                chooseColor(selectedCard);
-                return;
-            },3000)
-        }
-    }
+  }
 }
 
 function chooseColor(selectedCard) {
+  let currentPlayer = turn % 4;
 
-    let currentPlayer = turn%4;
+  if (currentPlayer == 0) {
+    let chooseColorWindow = document.querySelector(".choose-color-window");
+    chooseColorWindow.classList.remove("hide");
 
-    if ( currentPlayer == 0 ){
-        let chooseColorWindow = document.querySelector(".choose-color-window");
-        chooseColorWindow.classList.remove("hide");
+    let optionColors = [...chooseColorWindow.querySelectorAll(".color")];
 
-        let optionColors = [...chooseColorWindow.querySelectorAll(".color")];
+    optionColors.forEach((color) =>
+      color.addEventListener("click", (e) => {
+        let objectColor = e.target;
+        let indexColor = optionColors.findIndex(
+          (color) => color == objectColor
+        );
+        let chosenColor = colors[indexColor];
 
-        optionColors.forEach(color => color.addEventListener("click", (e) => {
-            let objectColor = e.target;
-            let indexColor = optionColors.findIndex(color => color == objectColor);
-            let chosenColor = colors[indexColor];
-
-            chooseColorWindow.classList.add("hide");
-
-            table.pop();
-            let card = {
-                color: chosenColor,
-                symbol: selectedCard.symbol
-            }
-            table.push(card);
-            renderTable();
-
-            if ( selectedCard.symbol == "p4" ) {
-                turn += direction;
-                if(turn%4 != 0) document.querySelector(".player-"+(turn%4+1)).classList.add("blocked");
-                takeCard();
-                takeCard();
-                takeCard();
-                takeCard();
-                setTimeout(() => {
-                    if(turn%4 != 0) document.querySelector(".player-"+(turn%4+1)).classList.remove("blocked");
-                    turn += direction;
-                    renderOtherPlayers();
-                    handleTurn();
-                    return;
-                },1000);
-            } else {
-                turn += direction;
-                handleTurn();
-                return;
-            }
-        }));
-    } else {
-        let cardsOfPlayer = players[currentPlayer];
-        let numCardsEachColor = [];
-        colors.forEach(color => {
-            let cardsSameColor = cardsOfPlayer.filter(card => card.color == color);
-            numCardsEachColor.push( cardsSameColor.length );
-        });
-
-        let index = numCardsEachColor.indexOf(Math.max(...numCardsEachColor));
-        let chosenColor = colors[index];
+        chooseColorWindow.classList.add("hide");
 
         table.pop();
         let card = {
-            color: chosenColor,
-            symbol: selectedCard.symbol
-        }
+          color: chosenColor,
+          symbol: selectedCard.symbol,
+        };
         table.push(card);
         renderTable();
 
-        if ( selectedCard.symbol == "p4") {
+        if (selectedCard.symbol == "p4") {
+          turn += direction;
+          if (turn % 4 != 0)
+            document
+              .querySelector(".player-" + ((turn % 4) + 1))
+              .classList.add("blocked");
+          takeCard();
+          takeCard();
+          takeCard();
+          takeCard();
+          setTimeout(() => {
+            if (turn % 4 != 0)
+              document
+                .querySelector(".player-" + ((turn % 4) + 1))
+                .classList.remove("blocked");
             turn += direction;
-            if(turn%4 != 0) document.querySelector(".player-"+(turn%4+1)).classList.add("blocked");
-            takeCard();
-            takeCard();
-            takeCard();
-            takeCard();
-            setTimeout(() => {
-                if(turn%4 != 0) document.querySelector(".player-"+(turn%4+1)).classList.remove("blocked");
-                turn += direction;
-                renderOtherPlayers();
-                renderUserCards();
-                handleTurn();
-                return;
-            },1000);
-        } else {
-            turn += direction;
+            renderOtherPlayers();
             handleTurn();
             return;
+          }, 1000);
+        } else {
+          turn += direction;
+          handleTurn();
+          return;
         }
-    }
-}
+      })
+    );
+  } else {
+    let cardsOfPlayer = players[currentPlayer];
+    let numCardsEachColor = [];
+    colors.forEach((color) => {
+      let cardsSameColor = cardsOfPlayer.filter((card) => card.color == color);
+      numCardsEachColor.push(cardsSameColor.length);
+    });
 
+    let index = numCardsEachColor.indexOf(Math.max(...numCardsEachColor));
+    let chosenColor = colors[index];
+
+    table.pop();
+    let card = {
+      color: chosenColor,
+      symbol: selectedCard.symbol,
+    };
+    table.push(card);
+    renderTable();
+
+    if (selectedCard.symbol == "p4") {
+      turn += direction;
+      if (turn % 4 != 0)
+        document
+          .querySelector(".player-" + ((turn % 4) + 1))
+          .classList.add("blocked");
+      takeCard();
+      takeCard();
+      takeCard();
+      takeCard();
+      setTimeout(() => {
+        if (turn % 4 != 0)
+          document
+            .querySelector(".player-" + ((turn % 4) + 1))
+            .classList.remove("blocked");
+        turn += direction;
+        renderOtherPlayers();
+        renderUserCards();
+        handleTurn();
+        return;
+      }, 1000);
+    } else {
+      turn += direction;
+      handleTurn();
+      return;
+    }
+  }
+}
 
 // Function to display game announcement
 function showGameAnnouncement(message) {
-  const gameAnnouncement = document.querySelector('.game-announcement');
+  const gameAnnouncement = document.querySelector(".game-announcement");
   gameAnnouncement.textContent = message;
-  gameAnnouncement.style.display = 'block';
-  
+  gameAnnouncement.style.display = "block";
+
   // Hide after 60 seconds (adjust timing as needed)
   setTimeout(() => {
-    gameAnnouncement.style.display = 'none';
+    gameAnnouncement.style.display = "none";
   }, 60000);
 }
 
-
-// Function to show the "Skipped" indicator
-function showSkippedIndicator() {
-    const skippedIndicator = document.querySelector('.skipped-indicator');
-    skippedIndicator.style.display = 'block';
-
-    // Hide after 3 seconds (adjust timing as needed)
-    setTimeout(() => {
-        skippedIndicator.style.display = 'none';
-    }, 3000);
-}
-
-showSkippedIndicator();
-
-
-
-
-
-// 
-// 
-// 
+//
+//
+//
 
 createCards();
 shuffleCards();
