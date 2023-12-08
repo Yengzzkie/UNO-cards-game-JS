@@ -471,9 +471,19 @@ function handlePowerUps(selectedCard) {
   if (selectedCard.symbol == "reverse") {
     const reverseIcon = document.getElementById("table");
     reverseIcon.classList.toggle("inverse");
+    
+    const unoReverse = document.querySelector('.uno-reverse')
+    unoReverse.classList.add("reversed");
+    unoReverse.textContent = "UNO Reverse!"
 
     direction *= -1;
     turn += direction;
+
+    setTimeout(() => {
+      unoReverse.textContent = "";
+      unoReverse.classList.remove("reversed");
+    }, 2000);
+
     handleTurn();
     return;
   }
@@ -492,7 +502,7 @@ function handlePowerUps(selectedCard) {
       turn += direction;
       handleTurn();
       return;
-    }, 10000);
+    }, 1000);
   
   }
 
@@ -501,7 +511,7 @@ function handlePowerUps(selectedCard) {
     let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
     if (turn % 4 != 0) 
       blockedPlayer.classList.add("blocked");
-      blockedPlayer.textContent = `Skipped`;
+      blockedPlayer.textContent = `+2 cards`;
     takeCard();
     takeCard();
     setTimeout(() => {
@@ -517,7 +527,7 @@ function handlePowerUps(selectedCard) {
       }
        
   
-    }, 10000);
+    }, 1000);
   }
 
   if (selectedCard.symbol == "changeColor" || selectedCard.symbol == "p4") {
