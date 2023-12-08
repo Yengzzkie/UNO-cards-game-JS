@@ -1,6 +1,5 @@
 const deck = [];
 const table = [];
-// const colors = ["darkred", "darkyellow", "darkgreen", "darkblue"];
 const symbols = [
   "0",
   "1",
@@ -407,7 +406,6 @@ function placeCardActions() {
   let currentPlayer = turn % 4;
 
   if (currentPlayer == 0) {
-
     showGameAnnouncement(`Your turn!`);
     let cardsObject = [...document.querySelector(".cards-container").children];
     let cardsInfo = players[0];
@@ -471,10 +469,10 @@ function handlePowerUps(selectedCard) {
   if (selectedCard.symbol == "reverse") {
     const reverseIcon = document.getElementById("table");
     reverseIcon.classList.toggle("inverse");
-    
-    const unoReverse = document.querySelector('.uno-reverse')
+
+    const unoReverse = document.querySelector(".uno-reverse");
     unoReverse.classList.add("reversed");
-    unoReverse.textContent = "UNO Reverse!"
+    unoReverse.textContent = "UNO Reverse!";
 
     direction *= -1;
     turn += direction;
@@ -491,43 +489,69 @@ function handlePowerUps(selectedCard) {
   if (selectedCard.symbol == "block") {
     turn += direction;
     let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
-    if (turn % 4 != 0) 
+    if (turn % 4 != 0) {
       blockedPlayer.classList.add("blocked");
       blockedPlayer.textContent = `Skipped`;
-    setTimeout(() => {
-      if (turn % 4 != 0)
-      blockedPlayer.textContent = ``;
-      blockedPlayer.classList.remove("blocked");
+      setTimeout(() => {
+        if (turn % 4 != 0) blockedPlayer.textContent = ``;
+        blockedPlayer.classList.remove("blocked");
 
-      turn += direction;
-      handleTurn();
-      return;
-    }, 1000);
-  
+        turn += direction;
+        handleTurn();
+        return;
+      }, 1000);
+    } else {
+      blockedPlayer.classList.add("blocked");
+      blockedPlayer.textContent = `Skipped`;
+      setTimeout(() => {
+        if (turn % 4 == 0) blockedPlayer.textContent = ``;
+        blockedPlayer.classList.remove("blocked");
+
+        turn += direction;
+        handleTurn();
+        return;
+      }, 1000);
+    }
   }
 
   if (selectedCard.symbol == "p2") {
     turn += direction;
     let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
-    if (turn % 4 != 0) 
+    if (turn % 4 != 0) {
       blockedPlayer.classList.add("blocked");
       blockedPlayer.textContent = `+2 cards`;
-    takeCard();
-    takeCard();
-    setTimeout(() => {
-      if (turn % 4 != 0) {
-        blockedPlayer.textContent = ``;
-        blockedPlayer.classList.remove("blocked");
-        
-        turn += direction;
-        renderOtherPlayers();
-        renderUserCards();
-        handleTurn();
-        return;
-      }
-       
-  
-    }, 1000);
+      takeCard();
+      takeCard();
+      setTimeout(() => {
+        if (turn % 4 != 0) {
+          blockedPlayer.textContent = ``;
+          blockedPlayer.classList.remove("blocked");
+
+          turn += direction;
+          renderOtherPlayers();
+          renderUserCards();
+          handleTurn();
+          return;
+        }
+      }, 1000);
+    } else {
+      blockedPlayer.classList.add("blocked");
+      blockedPlayer.textContent = `+2 cards`;
+      takeCard();
+      takeCard();
+      setTimeout(() => {
+        if (turn % 4 == 0) {
+          blockedPlayer.textContent = ``;
+          blockedPlayer.classList.remove("blocked");
+
+          turn += direction;
+          renderOtherPlayers();
+          renderUserCards();
+          handleTurn();
+          return;
+        }
+      }, 1000);
+    }
   }
 
   if (selectedCard.symbol == "changeColor" || selectedCard.symbol == "p4") {
@@ -620,9 +644,7 @@ function chooseColor(selectedCard) {
     if (selectedCard.symbol == "p4") {
       turn += direction;
       if (turn % 4 != 0)
-        document
-          .querySelector(".player-" + ((turn % 4) + 1))
-          .classList.add("blocked");
+        document.querySelector(".player-" + ((turn % 4) + 1)).classList.add("blocked");
       takeCard();
       takeCard();
       takeCard();
@@ -652,7 +674,6 @@ function showGameAnnouncement(message) {
   gameAnnouncement.textContent = message;
   gameAnnouncement.style.display = "block";
 
-  // Hide after 60 seconds (adjust timing as needed)
   setTimeout(() => {
     gameAnnouncement.style.display = "none";
   }, 60000);
@@ -661,7 +682,6 @@ function showGameAnnouncement(message) {
 //
 //
 //
-
 createCards();
 shuffleCards();
 giveCardsToPlayers();
