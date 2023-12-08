@@ -390,9 +390,9 @@ function takeCardActions() {
         setTimeout(() => {
           renderOtherPlayers();
           placeCardActions();
-        }, 1200);
+        }, 1500);
       }
-    }, 1000);
+    }, 1500);
   }
 }
 
@@ -425,11 +425,14 @@ function turnDeckCard(deckObject) {
   deckObject.classList.remove("my-time");
 }
 
-function placeCardActions() {
+function placeCardActions() { //indicates whose turn is active
   let currentPlayer = turn % 4;
+  let myDeck = document.querySelector(".cards-container");
 
   if (currentPlayer == 0) {
     showGameAnnouncement(`Your turn!`);
+
+    myDeck.classList.add('active')
     let cardsObject = [...document.querySelector(".cards-container").children];
     let cardsInfo = players[0];
 
@@ -444,6 +447,7 @@ function placeCardActions() {
 
     showGameAnnouncement(`Player ${currentPlayer + 1} is thinking`);
 
+    myDeck.classList.remove("active");
     let validCards = players[currentPlayer].filter((card) => isValidCard(card));
 
     let jokers = validCards.filter((validCard) => validCard.color == "black");
@@ -512,11 +516,13 @@ function handlePowerUps(selectedCard) {
   if (selectedCard.symbol == "block") {
     turn += direction;
     let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
+    let player = document.querySelector(".cards-container")
     if (turn % 4 != 0) {
       blockedPlayer.classList.add("blocked");
       blockedPlayer.textContent = `Skipped`;
       setTimeout(() => {
-        if (turn % 4 != 0) blockedPlayer.textContent = ``;
+        if (turn % 4 != 0) 
+        blockedPlayer.textContent = ``;
         blockedPlayer.classList.remove("blocked");
 
         turn += direction;
@@ -526,6 +532,7 @@ function handlePowerUps(selectedCard) {
     } else {
       blockedPlayer.classList.add("blocked");
       blockedPlayer.textContent = `Skipped`;
+
       setTimeout(() => {
         if (turn % 4 == 0) blockedPlayer.textContent = ``;
         blockedPlayer.classList.remove("blocked");

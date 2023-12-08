@@ -466,6 +466,8 @@ body {
   z-index: 9999; /* Ensures it appears on top */
 }
 
+/* style for the UNO reverse pop-up */
+
 .uno-reverse.reversed {
   position: absolute;
   top: calc(50% - 50px);
@@ -477,7 +479,7 @@ body {
   padding: 20px;
   display: block;
   z-index: 999;
-  animation: popIn 1s ease forwards; /* Apply the pop in animation */
+  animation: popIn 1s ease forwards; 
 }
 
 @keyframes popIn {
@@ -491,7 +493,7 @@ body {
   }
   50% {
     transform: scale(3);
-    opacity: 0.5;
+    opacity: 1;
   }
   100% {
     transform: scale(4);
@@ -548,4 +550,10 @@ body {
   font-size: 20px;
   font-weight: bold;
   cursor: pointer;
+}
+
+.cards-container.active {
+    scale: 1.1;
+    box-shadow: 0px 5px 8px green;
+    transition: all .5s ease-in-out;
 }
