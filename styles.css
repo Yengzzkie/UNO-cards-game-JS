@@ -208,10 +208,10 @@ body {
     background-color: rgb(252, 135, 40);
 } */
 
-
-.player-2 .skipped-indicator,
-.player-3 .skipped-indicator,
-.player-4 .skipped-indicator {
+.player1.blocked,
+.player2.blocked,
+.player3.blocked,
+.player4.blocked {
     position: absolute;
     top: calc(50% - 50px); 
     left: calc(50% - 25px); 
@@ -219,7 +219,7 @@ body {
     color: white;
     padding: 10px;
     border-radius: 5px;
-    display: none; 
+    display: block;
     z-index: 999; 
 }
 
@@ -447,5 +447,6 @@ body {
   display: none; /* Initially hidden */
   z-index: 9999; /* Ensures it appears on top */
 }
+
 
 

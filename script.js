@@ -149,7 +149,7 @@ function renderTable() {
     console.log(`Player ${currentPlayer + 1} skipped`);
     symbolHTML = '<ion-icon name="ban-outline"></ion-icon>';
   } else if (carta.symbol == "changeColor") {
-    showGameAnnouncement(`Color changed to ${carta.color}`);
+    showGameAnnouncement(`Player ${(turn % 4) + 1} is choosing a color`);
     symbolHTML = '<ion-icon name="color-palette-outline"></ion-icon>';
   } else if (carta.symbol == "p2") symbolHTML = `<p>+2</p>`;
   else if (carta.symbol == "p4") symbolHTML = `<p>+4</p>`;
@@ -203,7 +203,7 @@ function sortCardsOnContainer() {
 
 function renderUserCards() {
   let cardsContainer = document.getElementById("cardsContainer");
-  cardsContainer.innerHTML = "";
+  cardsContainer.innerHTML = ``;
 
   let cont = 0;
   for (let carta of players[0]) {
@@ -345,7 +345,7 @@ function takeCardActions() {
 
   if (currentPlayer == 0) {
     showGameAnnouncement(
-      "You have no cards to placem please draw card from the deck"
+      "You have no cards to place please draw card from the deck"
     );
     let deckObject = document.getElementById("deck");
     deckObject.classList.add("my-time");
@@ -480,40 +480,35 @@ function handlePowerUps(selectedCard) {
 
   if (selectedCard.symbol == "block") {
     turn += direction;
-    if (turn % 4 != 0) {
-      let player = document.querySelector(".player" + ((turn % 4) + 1));
-      player.classList.add("skipped-indicator");
+    let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
+    if (turn % 4 != 0) 
+      blockedPlayer.classList.add("blocked");
+      blockedPlayer.textContent = `Skipped`;
+    setTimeout(() => {
+      if (turn % 4 != 0)
+      blockedPlayer.textContent = ``;
+      blockedPlayer.classList.remove("blocked");
 
-      const skippedIndicator = document.querySelector(".skipped-indicator");
-      skippedIndicator.style.display = "block";
-      setTimeout(() => {
-        if (turn % 4 != 0) {
-          let player = document.querySelector(".player" + ((turn % 4) + 1));
-          player.classList.add("skipped-indicator");
-
-          const skippedIndicator = document.querySelector(".skipped-indicator");
-          skippedIndicator.style.display = "none";
-
-          turn += direction;
-          handleTurn();
-          return;
-        }
-      }, 3000);
-    }
+      turn += direction;
+      handleTurn();
+      return;
+    }, 10000);
+  
   }
 
   if (selectedCard.symbol == "p2") {
     turn += direction;
-    if (turn % 4 != 0) {
-      let player = document.querySelector(".player" + ((turn % 4) + 1));
-    player.classList.add("skipped-indicator");
+    let blockedPlayer = document.querySelector(".player" + ((turn % 4) + 1));
+    if (turn % 4 != 0) 
+      blockedPlayer.classList.add("blocked");
+      blockedPlayer.textContent = `Skipped`;
     takeCard();
     takeCard();
     setTimeout(() => {
       if (turn % 4 != 0) {
-        const skippedIndicator = document.querySelector(".skipped-indicator");
-        skippedIndicator.style.display = "none";
-
+        blockedPlayer.textContent = ``;
+        blockedPlayer.classList.remove("blocked");
+        
         turn += direction;
         renderOtherPlayers();
         renderUserCards();
@@ -522,8 +517,8 @@ function handlePowerUps(selectedCard) {
       }
        
   
-    }, 1000);
-  }}
+    }, 10000);
+  }
 
   if (selectedCard.symbol == "changeColor" || selectedCard.symbol == "p4") {
     if (turn % 4 == 0) {
