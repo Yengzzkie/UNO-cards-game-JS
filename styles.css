@@ -1,167 +1,181 @@
 body {
-    background-color: #ffffff;
-    background: repeating-linear-gradient( 45deg, #f7f7f78a, #f8f8f879 10px, #f1f1f149 10px, #eff0f1 20px);
-    min-height: 100vh;
-    /* background: rgb(255,255,255);
+  background-color: #ffffff;
+  background: repeating-linear-gradient(
+    45deg,
+    #f7f7f78a,
+    #f8f8f879 10px,
+    #f1f1f149 10px,
+    #eff0f1 20px
+  );
+  min-height: 100vh;
+  /* background: rgb(255,255,255);
     background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,230,230,1) 100%); */
-    overflow: hidden;
-    position: relative;
+  overflow: hidden;
+  position: relative;
 }
 
 /* sentido de giro */
 
 .table {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    position: absolute;
-    top: 50%;
-    left: calc( 50% - 220px );
-    transform: translateY(-58%);
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 220px);
+  transform: translateY(-58%);
 }
 
 .table ion-icon {
-    font-size: 440px;
-    opacity: 0.4;
-    filter: drop-shadow( 6px 6px 15px rgb(0, 0, 0));
-    -webkit-filter: drop-shadow( 3px 3px 3px rgba(0,0,0,0.8));
+  font-size: 440px;
+  opacity: 0.4;
+  filter: drop-shadow(6px 6px 15px rgb(0, 0, 0));
+  -webkit-filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.8));
 
-    animation: mymove 10s linear infinite;
-    -webkit-animation: mymove 10s linear infinite;
+  animation: mymove 10s linear infinite;
+  -webkit-animation: mymove 10s linear infinite;
 
-    transform-origin: 50% 58%;
+  transform-origin: 50% 58%;
 }
 
 @keyframes mymove {
-    0%   {transform: rotateY(0deg) rotateZ(0deg);}
-    100% {transform: rotateY(0deg) rotateZ(360deg);}
+  0% {
+    transform: rotateY(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateY(0deg) rotateZ(360deg);
+  }
 }
 
 @keyframes mymove2 {
-    0%   {transform: rotateY(180deg) rotateZ(0deg);}
-    100% {transform: rotateY(180deg) rotateZ(3600deg);}
+  0% {
+    transform: rotateY(180deg) rotateZ(0deg);
+  }
+  100% {
+    transform: rotateY(180deg) rotateZ(3600deg);
+  }
 }
 
 .inverse.table ion-icon {
-    animation: mymove2 100s linear infinite;
-    -webkit-animation: mymove2 100s linear infinite;
+  animation: mymove2 100s linear infinite;
+  -webkit-animation: mymove2 100s linear infinite;
 }
 
 /* espacao para carta na mesa */
 
 .table-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    position: absolute;
-    top: 50%;
-    left: calc( 50% - 57px );
-    transform: translateY(-50%);
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 57px);
+  transform: translateY(-50%);
 }
 
 .table-card .card {
-    position: absolute;
-    left: 50%;
+  position: absolute;
+  left: 50%;
 }
 
 /* espaco para cartas do usuario */
 
 .cards-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    /* background-color: salmon; */
+  /* background-color: salmon; */
 
-    position: absolute;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* todas as cartas visiveis */
 
 .card {
-    min-width: 110px;
-    width: 140px;
-    height: 176px;
+  min-width: 110px;
+  width: 140px;
+  height: 176px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    border: 1px solid black;
-    border-radius: 7px;
-    box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.884);
+  border: 1px solid black;
+  border-radius: 7px;
+  box-shadow: -3px 5px 5px rgba(0, 0, 0, 0.884);
 
-    transition: all 0.5s;
+  transition: all 0.5s;
 
-    z-index: 0;
+  z-index: 0;
 }
 
 .cards-container .card {
-    margin-bottom: -10px;
-    margin-left: -8px;
+  margin-bottom: -10px;
+  margin-left: -8px;
 }
 
 .cards-container .card:first-child {
-    margin-left: 0px;
+  margin-left: 0px;
 }
-
 
 /* efeitos para quando é a vez do usuario */
 
 .my-turn.card {
-    box-shadow: -1px 11px 12px rgba(0,0,0,0.85);
-    transform: translateY(-10px);
-    cursor: pointer;
+  box-shadow: -1px 11px 12px rgba(0, 0, 0, 0.85);
+  transform: translateY(-10px);
+  cursor: pointer;
 }
 
 .my-turn.card:hover ~ .card {
-    transform: translateX(14px);
+  transform: translateX(14px);
 }
 
 .my-turn.card:hover ~ .my-turn.card {
-    transform: translateX(7px) translateY(-7px);
+  transform: translateX(7px) translateY(-7px);
 }
 
 .my-turn.card:hover {
-    transform: translateY(-14px);
+  transform: translateY(-14px);
 }
 
 /* elipse no meio da carta */
 
 .card:before {
-    content: "";
+  content: "";
 
-    width: 78px;
-    height: 120px;
+  width: 78px;
+  height: 120px;
 
-    border-radius: 39px;
-    border: 2px solid white;
+  border-radius: 39px;
+  border: 2px solid white;
 
-    background-color: rgb(34, 34, 34);
+  background-color: rgb(34, 34, 34);
 
-    position: absolute;
-    transform: rotateZ(10deg);
+  position: absolute;
+  transform: rotateZ(10deg);
 
-    box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.8) , inset 0 0 5px rgba(255,255,255,0.8);
+  box-shadow: 3px 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 0 5px rgba(255, 255, 255, 0.8);
 
-    z-index: 1;
+  z-index: 1;
 }
 
 /* simbolo da carta */
 
 .logo {
-    color: white;
-    font-size: 65px;
+  color: white;
+  font-size: 65px;
 
-    filter: drop-shadow( 3px 3px 3px rgba(0,0,0,0.8) );
-    -webkit-filter: drop-shadow( 3px 3px 3px rgba(0,0,0,0.8) );
+  filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.8));
 
-    z-index: 2;
+  z-index: 2;
 }
 
 /*  */
@@ -171,35 +185,35 @@ body {
 .winner.player-2 .card,
 .winner.player-3 .card,
 .winner.player-4 .card {
-    border: 2px solid green;
-    box-shadow: 0px 0px 10px rgba(0, 255, 0, 1);
+  border: 2px solid green;
+  box-shadow: 0px 0px 10px rgba(0, 255, 0, 1);
 }
 
 .winner.player-2 .card .logo,
 .winner.player-3 .card .logo,
 .winner.player-4 .card .logo {
-    font-size: 54px;
-    filter: drop-shadow( 0px 0px 2px rgb(2, 199, 2) );
-    -webkit-filter: drop-shadow( 0px 0px 2px rgb(2, 199, 2) );
+  font-size: 54px;
+  filter: drop-shadow(0px 0px 2px rgb(2, 199, 2));
+  -webkit-filter: drop-shadow(0px 0px 2px rgb(2, 199, 2));
 }
 
 .player-2,
 .player-3,
 .player-4 {
-    width: 250px;
-    height: 250px;
-    font-size: 30px;
-    position: absolute;
-    margin: 10px;
-    font-weight: bold;
-    box-sizing: border-box;
+  width: 250px;
+  height: 250px;
+  font-size: 30px;
+  position: absolute;
+  margin: 10px;
+  font-weight: bold;
+  box-sizing: border-box;
 }
 
 .turnOf.player-2 .light,
 .turnOf.player-3 .light,
 .turnOf.player-4 .light {
-    border: 1px solid green;
-    background-color: rgb(18, 199, 18);
+  border: 1px solid green;
+  background-color: rgb(18, 199, 18);
 }
 
 /* .blocked.player-2 .light,
@@ -213,53 +227,52 @@ body {
 .player2.blocked,
 .player3.blocked,
 .player4.blocked {
-    position: absolute;
-    top: calc(50% - 50px); 
-    left: calc(50% - 25px); 
-    background-color: rgba(255, 0, 0, 0.8); 
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    display: block;
-    z-index: 999; 
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 25px);
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: block;
+  z-index: 999;
 }
-
 
 .player-2 .light,
 .player-3 .light,
 .player-4 .light {
-    width: 30px;
-    height: 30px;
-    background-color: lightgrey;
-    border: 1px solid gray;
-    margin: 10px 10px;
-    border-radius: 50%;
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
-    box-shadow: 0px 0px 20px black;
-    transition: all 0.4s;
+  width: 30px;
+  height: 30px;
+  background-color: lightgrey;
+  border: 1px solid gray;
+  margin: 10px 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 20px black;
+  transition: all 0.4s;
 }
 
 .player-2 {
-    left: 0px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
 }
 
 .player-3 {
-    top: 0px;
-    left: 50%;
-    display: flex;
-    justify-content: flex-end;
+  top: 0px;
+  left: 50%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .player-4 {
-    right: 0px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 
 /*  */
@@ -267,102 +280,100 @@ body {
 /*  */
 
 .choose-color-window {
-    background-color: rgba(43, 43, 43, 0.788);
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+  background-color: rgba(43, 43, 43, 0.788);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .choose-color-window.hide {
-    display: none;
+  display: none;
 }
 
 .colors-container {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background-color: rgb(121, 121, 121);
-    border: 1px solid black;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: rgb(121, 121, 121);
+  border: 1px solid black;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .color {
-    box-sizing: border-box;
-    width: 50%;
-    height: 50%;
-    transform: scale(0.98);
-    border: 1px solid black;
+  box-sizing: border-box;
+  width: 50%;
+  height: 50%;
+  transform: scale(0.98);
+  border: 1px solid black;
 
-    transition: all 0.4s;
+  transition: all 0.4s;
 }
 
 .color:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .color.red {
-    background-color: darkred;
-    border-radius: 100% 3% 3% 3%;
-    filter: drop-shadow( -2px -2px 2px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( -2px -2px 2px rgba(0,0,0,0.8));
+  background-color: darkred;
+  border-radius: 100% 3% 3% 3%;
+  filter: drop-shadow(-2px -2px 2px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(-2px -2px 2px rgba(0, 0, 0, 0.8));
 }
 
 .color.yellow {
-    background-color: orange;
-    border-radius: 3% 100% 3% 3%;
-    filter: drop-shadow( 2px -2px 2px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( 2px -2px 2px rgba(0,0,0,0.8));
+  background-color: orange;
+  border-radius: 3% 100% 3% 3%;
+  filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.8));
 }
 
 .color.green {
-    background-color: darkgreen;
-    border-radius: 3% 3% 3% 100%;
-    filter: drop-shadow( -2px 2px 2px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( -2px 2px 2px rgba(0,0,0,0.8));
+  background-color: darkgreen;
+  border-radius: 3% 3% 3% 100%;
+  filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(-2px 2px 2px rgba(0, 0, 0, 0.8));
 }
 
 .color.blue {
-    background-color: darkblue;
-    border-radius: 3% 3% 100% 3%;
-    filter: drop-shadow( 2px 2px 2px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( 2px 2px 2px rgba(0,0,0,0.8));
+  background-color: darkblue;
+  border-radius: 3% 3% 100% 3%;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8));
 }
 
-
-
 .color.red:hover {
-    background-color: rgb(199, 3, 3);
-    filter: drop-shadow( -4px -4px 4px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( -4px -4px 4px rgba(0,0,0,0.8));
+  background-color: rgb(199, 3, 3);
+  filter: drop-shadow(-4px -4px 4px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(-4px -4px 4px rgba(0, 0, 0, 0.8));
 }
 
 .color.yellow:hover {
-    background-color: rgb(255, 230, 0);
-    filter: drop-shadow( 4px -4px 4px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( 4px -4px 4px rgba(0,0,0,0.8));
+  background-color: rgb(255, 230, 0);
+  filter: drop-shadow(4px -4px 4px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(4px -4px 4px rgba(0, 0, 0, 0.8));
 }
 
 .color.green:hover {
-    background-color: rgb(2, 172, 2);
-    filter: drop-shadow( -4px 4px 4px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( -4px 4px 4px rgba(0,0,0,0.8));
+  background-color: rgb(2, 172, 2);
+  filter: drop-shadow(-4px 4px 4px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(-4px 4px 4px rgba(0, 0, 0, 0.8));
 }
 
 .color.blue:hover {
-    background-color: rgb(0, 0, 185);
-    filter: drop-shadow( 4px 4px 4px rgba(0,0,0,0.8));
-    -webkit-filter: drop-shadow( 4px 4px 4px rgba(0,0,0,0.8));
+  background-color: rgb(0, 0, 185);
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.8));
+  -webkit-filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.8));
 }
 
 /*  */
@@ -370,59 +381,65 @@ body {
 /*  */
 
 .deck {
-    display: flex;
-    align-items: center;
-    position: relative;
-    left: 170px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  left: 170px;
 }
 
 .deck .card.frente {
-    transform: scale(0.9) rotateY(180deg);
-    margin: 5px 5px;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    position: absolute;
-    top: 0;
+  transform: scale(0.9) rotateY(180deg);
+  margin: 5px 5px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  top: 0;
 }
 
 .deck .card.verso {
-    background-color: rgb(145, 107, 107); 
-    transform: scale(0.9);
-    margin: 5px 5px;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    position: absolute;
-    top: 0;
+  background-color: rgb(145, 107, 107);
+  transform: scale(0.9);
+  margin: 5px 5px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  top: 0;
 }
 
 .deck .card.verso .logo {
-    font-size: 32px;
+  font-size: 32px;
 }
 
 .deck.my-time .card.verso {
-    border: 1px solid rgb(7, 177, 83);
-    box-shadow: 0px 0px 10px rgb(40, 252, 135);
-    
-    animation: my-deck-animation 1s infinite;
-    -webkit-animation: my-deck-animation 1s infinite;
+  border: 1px solid rgb(7, 177, 83);
+  box-shadow: 0px 0px 10px rgb(40, 252, 135);
+
+  animation: my-deck-animation 1s infinite;
+  -webkit-animation: my-deck-animation 1s infinite;
 }
 
 @keyframes my-deck-animation {
-    0% { transform: scale(0.9); }
-    50% {transform: scale(0.92); }
-    100% {transform: scale(0.9); }
+  0% {
+    transform: scale(0.9);
+  }
+  50% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(0.9);
+  }
 }
 
 .deck.my-time .card.verso:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .deck.turned .card.frente {
-    transform: scale(0.9) rotateY(0deg);
+  transform: scale(0.9) rotateY(0deg);
 }
 
 .deck.turned .card.verso {
-    transform: scale(0.9) rotateY(180deg);
+  transform: scale(0.9) rotateY(180deg);
 }
 
 /*  */
@@ -432,8 +449,8 @@ body {
 .player-2 .card,
 .player-3 .card,
 .player-4 .card {
-    background-color: rgb(145, 107, 107); 
-    transform: scale(0.9);
+  background-color: rgb(145, 107, 107);
+  transform: scale(0.9);
 }
 
 .game-announcement {
@@ -450,35 +467,85 @@ body {
 }
 
 .uno-reverse.reversed {
-    position: absolute;
-    top: calc(50% - 50px); 
-    left: calc(50% - 50px); 
-    background-color: rgba(255, 251, 0, 0);
-    color: white;
-    text-shadow: -5px 5px 5px black;
-    font-weight: bolder;
-    padding: 20px;
-    display: block;
-    z-index: 999;
-    animation: popIn 1s ease forwards; /* Apply the pop in animation */
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  background-color: rgba(255, 251, 0, 0);
+  color: white;
+  text-shadow: -5px 5px 5px black;
+  font-weight: bolder;
+  padding: 20px;
+  display: block;
+  z-index: 999;
+  animation: popIn 1s ease forwards; /* Apply the pop in animation */
 }
 
 @keyframes popIn {
-    0% {
-        transform: scale(1);
-        opacity: 1; 
-    }
-    25% {
-        transform: scale(2);
-        opacity: 1; 
-    }
-    50% {
-        transform: scale(3);
-        opacity: .5; 
-    }
-    100% {
-        transform: scale(4);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(2);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(3);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
+
+/* Styles for the overlay */
+
+.welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.welcome-message {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: -3px 5px 5px black;
+  text-align: center;
+  line-height: 1.5em;
+  animation: fade-in 1s ease-in-out forwards;
+  width: 25%;
+  height: 15%;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}

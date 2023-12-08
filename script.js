@@ -1,3 +1,26 @@
+const overlay = document.getElementById("welcomeOverlay");
+const welcomeMessage = document.querySelector(".welcome-message");
+const closeBtn = document.getElementById("closeModal");
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  overlay.style.display = "block";
+
+  welcomeMessage.style.display = "block";
+});
+
+
+closeBtn.onclick = function () {
+  overlay.style.display = "none";
+};
+
+
+window.onclick = function (event) {
+  if (event.target == overlay) {
+    overlay.style.display = "none";
+  }
+};
+
 const deck = [];
 const table = [];
 const symbols = [
@@ -644,7 +667,9 @@ function chooseColor(selectedCard) {
     if (selectedCard.symbol == "p4") {
       turn += direction;
       if (turn % 4 != 0)
-        document.querySelector(".player-" + ((turn % 4) + 1)).classList.add("blocked");
+        document
+          .querySelector(".player-" + ((turn % 4) + 1))
+          .classList.add("blocked");
       takeCard();
       takeCard();
       takeCard();
