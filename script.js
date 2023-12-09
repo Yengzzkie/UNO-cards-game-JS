@@ -519,10 +519,10 @@ function handlePowerUps(selectedCard) {
     let player = document.querySelector(".cards-container")
     if (turn % 4 != 0) {
       blockedPlayer.classList.add("blocked");
-      blockedPlayer.textContent = `Skipped`;
+      blockedPlayer.innerHTML = `<img src="images/forbidden.png">`;
       setTimeout(() => {
         if (turn % 4 != 0) 
-        blockedPlayer.textContent = ``;
+        blockedPlayer.innerHTML = ``;
         blockedPlayer.classList.remove("blocked");
 
         turn += direction;
@@ -531,10 +531,10 @@ function handlePowerUps(selectedCard) {
       }, 1000);
     } else {
       blockedPlayer.classList.add("blocked");
-      blockedPlayer.textContent = `Skipped`;
+      blockedPlayer.innerHTML = `<img src="images/forbidden.png">`;
 
       setTimeout(() => {
-        if (turn % 4 == 0) blockedPlayer.textContent = ``;
+        if (turn % 4 == 0) blockedPlayer.innerHTML = ``;
         blockedPlayer.classList.remove("blocked");
 
         turn += direction;

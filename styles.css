@@ -216,21 +216,48 @@ body {
   background-color: rgb(18, 199, 18);
 }
 
-/* .blocked.player-2 .light,
-.blocked.player-3 .light,
-.blocked.player-4 .light {
-    border: 1px solid orangered;
-    background-color: rgb(252, 135, 40);
-} */
+
+.player1.blocked img,
+.player2.blocked img,
+.player3.blocked img,
+.player4.blocked img{
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 25px);
+  background-color: rgba(255, 0, 0, 0);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  display: block;
+  width: 120px;
+  z-index: 999;
+  animation: bounceIn 0.5s ease-in-out forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    scale: .5;
+  }
+  25% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.5;
+  }
+  100% {
+    scale: 1;
+  }
+}
+
 
 .player1.blocked,
 .player2.blocked,
 .player3.blocked,
-.player4.blocked {
+.player4.blocked{
   position: absolute;
   top: calc(50% - 50px);
   left: calc(50% - 25px);
-  background-color: rgba(255, 0, 0, 0.8);
+  background-color: rgba(255, 0, 0, 0.733);
   color: white;
   padding: 10px;
   border-radius: 5px;
